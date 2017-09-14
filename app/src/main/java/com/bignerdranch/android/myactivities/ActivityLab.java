@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import com.bignerdranch.android.myactivities.database.ActivitiesDbScehma;
 import com.bignerdranch.android.myactivities.database.ActivityBaseHelper;
@@ -12,6 +13,7 @@ import com.bignerdranch.android.myactivities.database.ActivityCursorWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.jar.Attributes;
 
 /**
  * Created by Robert on 13/09/2017.
@@ -34,6 +36,13 @@ public class ActivityLab {
     private ActivityLab(Context context) {
         mContext = context.getApplicationContext();
         mDatabase = new ActivityBaseHelper(mContext).getWritableDatabase();
+    }
+
+    public void deleteActivity(UUID id) {
+        //mDatabase.execSQL("delete from activities where uuid = " + id ,null);
+        //Toast.makeText(mContext = mContext.getApplicationContext(), "Delete Pressed with ID :" + id, Toast.LENGTH_SHORT).show();
+       // mDatabase.delete(tableName,whereClause, whereArgs);
+        this.mDatabase.delete("activities", "uuid=?", new String[] { String.valueOf(id) });
     }
 
     public void addActivity(Activity a) {
@@ -91,7 +100,8 @@ public class ActivityLab {
         values.put(ActivitiesDbScehma.ActivityTable.Cols.DATE, activity.getDate().getTime());
         values.put(ActivitiesDbScehma.ActivityTable.Cols.LOCATION, activity.getLocation());
         values.put(ActivitiesDbScehma.ActivityTable.Cols.COMMENT, activity.getComment());
-        values.put(ActivitiesDbScehma.ActivityTable.Cols.DURATION, activity.getDuration());
+        values.put(ActivitiesDbScehma.ActivityTable.Cols.DURATIONHOURS, activity.getDurationHours());
+        values.put(ActivitiesDbScehma.ActivityTable.Cols.DURATIONMINUTES, activity.getDurationMinutes());
         values.put(ActivitiesDbScehma.ActivityTable.Cols.TYPE, activity.getType());
 
         return values;

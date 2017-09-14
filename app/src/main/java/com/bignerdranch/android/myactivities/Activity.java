@@ -16,7 +16,8 @@ public class Activity {
     private Date mDate;
     private String mLocation;
     private String mComment;
-    private String mDuration;
+    private String mDurationHours;
+    private String mDurationMinutes;
     private int mType;
 
 
@@ -65,12 +66,20 @@ public class Activity {
         mComment = comment;
     }
 
-    public String getDuration() {
-        return mDuration;
+    public String getDurationHours() {
+        return mDurationHours;
     }
 
-    public void setDuration(String duration) {
-        mDuration = duration;
+    public void setDurationHours(String duration) {
+        mDurationHours = duration;
+    }
+
+    public String getDurationMinutes() {
+        return mDurationMinutes;
+    }
+
+    public void setDurationMinutes(String duration) {
+        mDurationMinutes = duration;
     }
 
     public int getType() {

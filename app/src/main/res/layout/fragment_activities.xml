@@ -26,27 +26,70 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Duration"
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_weight="5"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Type"
+            style="?android:listSeparatorTextViewStyle"
+            android:layout_weight="7"/>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/activity_duration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Duration"
-        android:inputType="time"
-        />
+        <EditText
+            android:id="@+id/activity_duration_hours"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:hint="#"
+            android:inputType="time"
+            android:textAlignment="center"/>
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/activity_spinner"
-        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hours,"
+            android:textSize="20dp"/>
 
-    </Spinner>
+        <EditText
+            android:id="@+id/activity_duration_minutes"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:hint="#"
+            android:inputType="time"
+            android:textAlignment="center"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Minutes"
+            android:textSize="20dp"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/activity_spinner"
+            >
+
+        </Spinner>
+
     </LinearLayout>
+
 
     <EditText
         android:id="@+id/activity_location"
@@ -59,5 +102,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Add a comment"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:layout_gravity="bottom"/>
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:layout_gravity="bottom"/>
+
+    </LinearLayout>
 
 </LinearLayout>

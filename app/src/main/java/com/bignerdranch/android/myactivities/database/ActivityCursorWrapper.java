@@ -23,7 +23,8 @@ public class ActivityCursorWrapper extends CursorWrapper {
         long date = getLong(getColumnIndex(ActivitiesDbScehma.ActivityTable.Cols.DATE));
         String location = getString(getColumnIndex(ActivitiesDbScehma.ActivityTable.Cols.LOCATION));
         String comment = getString(getColumnIndex(ActivitiesDbScehma.ActivityTable.Cols.COMMENT));
-        String duration = getString(getColumnIndex(ActivitiesDbScehma.ActivityTable.Cols.DURATION));
+        String durationHours = getString(getColumnIndex(ActivitiesDbScehma.ActivityTable.Cols.DURATIONHOURS));
+        String durationMinutes = getString(getColumnIndex(ActivitiesDbScehma.ActivityTable.Cols.DURATIONMINUTES));
         Integer type = getInt(getColumnIndex(ActivitiesDbScehma.ActivityTable.Cols.TYPE));
 
         Activity activity = new Activity(UUID.fromString(uuidString));
@@ -31,7 +32,8 @@ public class ActivityCursorWrapper extends CursorWrapper {
         activity.setDate(new Date(date));
         activity.setLocation(location);
         activity.setComment(comment);
-        activity.setDuration(duration);
+        activity.setDurationHours(durationHours);
+        activity.setDurationMinutes(durationMinutes);
         activity.setType(type);
 
         return activity;

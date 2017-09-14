@@ -50,8 +50,9 @@ public class ActivitiesListFragment extends Fragment {
         mSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // create settings UI and put intent to start it here
-                Toast.makeText(getActivity(), "Settings Clicked", Toast.LENGTH_SHORT).show();
+                //Intent intent = new Intent(getActivity(), UserActivity.class);
+                //startActivity(intent);
+                Toast.makeText(getContext(), "Settings Clicked", Toast.LENGTH_LONG).show();
             }
         });
 

@@ -27,7 +27,8 @@ public class ActivityBaseHelper extends SQLiteOpenHelper {
                 ActivityTable.Cols.DATE + ", " +
                 ActivityTable.Cols.LOCATION + ", " +
                 ActivityTable.Cols.COMMENT + ", " +
-                ActivityTable.Cols.DURATION + ", " +
+                ActivityTable.Cols.DURATIONHOURS + ", " +
+                ActivityTable.Cols.DURATIONMINUTES + ", " +
                 ActivityTable.Cols.TYPE +
                 ")"
         );

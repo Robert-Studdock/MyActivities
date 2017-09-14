@@ -14,7 +14,8 @@ public class ActivitiesDbScehma {
             public static final String DATE = "date";
             public static final String LOCATION = "location";
             public static final String COMMENT = "comment";
-            public static final String DURATION = "duration";
+            public static final String DURATIONHOURS = "durationhours";
+            public static final String DURATIONMINUTES = "durationminutes";
             public static final String TYPE = "type";
         }
     }

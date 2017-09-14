@@ -4,6 +4,8 @@
     <string name="activity_details_label">Details</string>
     <string name="activity_location">Location</string>
     <string name="activity_comment">Comment</string>
+    <string name="user_id"></string>
+
     <string-array name="activites_array">
         <item>Work</item>
         <item>Study</item>

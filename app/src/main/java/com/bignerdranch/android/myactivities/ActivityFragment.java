@@ -1,5 +1,7 @@
 package com.bignerdranch.android.myactivities;
 
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -12,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.UUID;
 
@@ -28,8 +29,11 @@ public class ActivityFragment extends Fragment {
     private Button mDateButton;
     private EditText mLocation;
     private EditText mComment;
-    private EditText mDuration;
+    private EditText mDurationHours;
+    private EditText mDurationMinutes;
     private Spinner mType;
+    private Button mDelete;
+    private Button mSave;
 
     public static ActivityFragment newInstance(UUID activityId) {
         Bundle args = new Bundle();
@@ -118,9 +122,9 @@ public class ActivityFragment extends Fragment {
             }
         });
 
-        mDuration = (EditText) v.findViewById(R.id.activity_duration);
-        mDuration.setText(mActivity.getDuration());
-        mDuration.addTextChangedListener(new TextWatcher() {
+        mDurationHours = (EditText) v.findViewById(R.id.activity_duration_hours);
+        mDurationHours.setText(mActivity.getDurationHours());
+        mDurationHours.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -128,7 +132,26 @@ public class ActivityFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mActivity.setDuration(s.toString());
+                mActivity.setDurationHours(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        mDurationMinutes = (EditText) v.findViewById(R.id.activity_duration_minutes);
+        mDurationMinutes.setText(mActivity.getDurationMinutes());
+        mDurationMinutes.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mActivity.setDurationMinutes(s.toString());
             }
 
             @Override
@@ -159,6 +182,24 @@ public class ActivityFragment extends Fragment {
             }
         });
 
+        mDelete = (Button) v.findViewById(R.id.delete_button);
+        mDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityLab.get(getActivity()).deleteActivity(mActivity.getId());
+                //Intent intent = new Intent(getActivity(), ActivitiesListActivity.class);
+                //startActivity(intent);
+            }
+        });
+
+        mSave = (Button) v.findViewById(R.id.save_button);
+        mSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ActivitiesListActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return v;
     }
