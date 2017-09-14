@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical">
+
+    <TextView    android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:text="@string/activity_title_label"
+                 style="?android:listSeparatorTextViewStyle"/>
+
+    <EditText
+        android:id="@+id/activity_title"
+        android:hint="Activity name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView    android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:text="@string/activity_details_label"
+                 style="?android:listSeparatorTextViewStyle"/>
+
+    <Button android:id="@+id/activity_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/activity_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Duration"
+        android:inputType="time"
+        />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/activity_spinner"
+        >
+
+    </Spinner>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/activity_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter a location"/>
+
+    <EditText
+        android:id="@+id/activity_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Add a comment"/>
+
+</LinearLayout>

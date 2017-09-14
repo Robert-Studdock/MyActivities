@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">My Activities</string>
+    <string name="activity_title_label">Title</string>
+    <string name="activity_details_label">Details</string>
+    <string name="activity_location">Location</string>
+    <string name="activity_comment">Comment</string>
+    <string-array name="activites_array">
+        <item>Work</item>
+        <item>Study</item>
+        <item>Leisure</item>
+        <item>Sport</item>
+    </string-array>
+
+</resources>
