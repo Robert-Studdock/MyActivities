@@ -187,8 +187,8 @@ public class ActivityFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ActivityLab.get(getActivity()).deleteActivity(mActivity.getId());
-                //Intent intent = new Intent(getActivity(), ActivitiesListActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(getActivity(), ActivitiesListActivity.class);
+                startActivity(intent);
             }
         });
 
