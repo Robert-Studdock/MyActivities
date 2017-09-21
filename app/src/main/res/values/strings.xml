@@ -13,4 +13,10 @@
         <item>Sport</item>
     </string-array>
 
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+
 </resources>

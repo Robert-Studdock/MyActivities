@@ -4,12 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 import android.widget.Toast;
 
 import com.bignerdranch.android.myactivities.database.ActivitiesDbScehma;
 import com.bignerdranch.android.myactivities.database.ActivityBaseHelper;
 import com.bignerdranch.android.myactivities.database.ActivityCursorWrapper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -82,6 +84,7 @@ public class ActivityLab {
             cursor.close();
         }
     }
+    
 
     public void updateActivity(Activity activity) {
         String uuidString = activity.getId().toString();

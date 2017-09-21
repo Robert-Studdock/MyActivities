@@ -1,8 +1,8 @@
-package com.bignerdranch.android.myactivities;
+package com.bignerdranch.android.myactivities.user_classes;
 
 import android.support.v4.app.Fragment;
 
-import java.util.UUID;
+import com.bignerdranch.android.myactivities.SingleFragmentActivity;
 
 /**
  * Created by Robert on 14/09/2017.

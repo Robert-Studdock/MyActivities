@@ -19,4 +19,17 @@ public class ActivitiesDbScehma {
             public static final String TYPE = "type";
         }
     }
+
+    public static final class UserTable {
+        public static final String NAME = "profiles";
+
+        public static final class Cols {
+            public static final String FNAME = "fname";
+            public static final String LNAME = "lname";
+            public static final String UUID = "uuid";
+            public static final String EMAIL = "email";
+            public static final String GENDER = "gender";
+            public static final String COMMENT = "comment";
+        }
+    }
 }

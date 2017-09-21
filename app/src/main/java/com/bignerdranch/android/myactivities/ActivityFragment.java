@@ -1,8 +1,13 @@
 package com.bignerdranch.android.myactivities;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,8 +18,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.io.File;
 import java.util.UUID;
 
 /**
@@ -23,8 +32,10 @@ import java.util.UUID;
 
 public class ActivityFragment extends Fragment {
     private static final String ARG_ACTIVITY_ID = "activity_id";
+    private static final int REQUEST_PHOTO = 0;
 
     private Activity mActivity;
+
     private EditText mTitleField;
     private Button mDateButton;
     private EditText mLocation;
@@ -54,6 +65,10 @@ public class ActivityFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        if (Integer.parseInt(mActivity.getDurationMinutes()) > 60) {
+            mActivity.setDurationMinutes("0");
+            Toast.makeText(getContext(), "Minutes should be less than 60", Toast.LENGTH_LONG).show();
+        }
         ActivityLab.get(getActivity()).updateActivity(mActivity);
     }
 
@@ -127,7 +142,6 @@ public class ActivityFragment extends Fragment {
         mDurationHours.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -146,17 +160,15 @@ public class ActivityFragment extends Fragment {
         mDurationMinutes.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mActivity.setDurationMinutes(s.toString());
+                    mActivity.setDurationMinutes(s.toString());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 

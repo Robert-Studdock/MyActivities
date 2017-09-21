@@ -89,5 +89,6 @@ public class Activity {
     public void setType(int type) {
         mType = type;
     }
+
 }
 

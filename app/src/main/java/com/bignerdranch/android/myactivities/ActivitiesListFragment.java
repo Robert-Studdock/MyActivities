@@ -8,14 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.sql.Time;
+import com.bignerdranch.android.myactivities.user_classes.UserActivity;
+
 import java.util.List;
 
 /**
@@ -50,9 +47,9 @@ public class ActivitiesListFragment extends Fragment {
         mSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(getActivity(), UserActivity.class);
-                //startActivity(intent);
-                Toast.makeText(getContext(), "Settings Clicked", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), UserActivity.class);
+                startActivity(intent);
+                //Toast.makeText(getContext(), "Settings Clicked", Toast.LENGTH_LONG).show();
             }
         });
 

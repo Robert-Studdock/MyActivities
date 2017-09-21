@@ -5,6 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.bignerdranch.android.myactivities.database.ActivitiesDbScehma.ActivityTable;
+import com.bignerdranch.android.myactivities.database.ActivitiesDbScehma.UserTable;
+import com.bignerdranch.android.myactivities.user_classes.User;
+
+import java.util.UUID;
 
 /**
  * Created by Robert on 13/09/2017.
@@ -32,6 +36,17 @@ public class ActivityBaseHelper extends SQLiteOpenHelper {
                 ActivityTable.Cols.TYPE +
                 ")"
         );
+        db.execSQL("create table " + ActivitiesDbScehma.UserTable.NAME + "(" +
+                " _id integer primary key autoincrement, " +
+                UserTable.Cols.UUID + ", " +
+                UserTable.Cols.FNAME + ", " +
+                UserTable.Cols.LNAME + ", " +
+                UserTable.Cols.GENDER + ", " +
+                UserTable.Cols.EMAIL + ", " +
+                UserTable.Cols.COMMENT + ")"
+        );
+        db.execSQL("insert into profiles (uuid) values " +
+                "('" + UUID.randomUUID() + "')" );
     }
 
     @Override

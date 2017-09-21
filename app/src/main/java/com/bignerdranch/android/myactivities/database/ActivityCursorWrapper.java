@@ -5,6 +5,7 @@ import android.database.CursorWrapper;
 
 import com.bignerdranch.android.myactivities.Activity;
 
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -38,4 +39,6 @@ public class ActivityCursorWrapper extends CursorWrapper {
 
         return activity;
     }
+
+
 }
