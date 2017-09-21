@@ -90,5 +90,9 @@ public class Activity {
         mType = type;
     }
 
+    public String getPhotoFilename() {
+        return "IMG_" + getId().toString() + ".jpg";
+    }
+
 }
 

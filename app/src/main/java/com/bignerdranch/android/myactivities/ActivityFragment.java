@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,10 +33,10 @@ import java.util.UUID;
 
 public class ActivityFragment extends Fragment {
     private static final String ARG_ACTIVITY_ID = "activity_id";
-    private static final int REQUEST_PHOTO = 0;
+    private static final int REQUEST_PHOTO= 2;
 
     private Activity mActivity;
-
+    private File mPhotoFile;
     private EditText mTitleField;
     private Button mDateButton;
     private EditText mLocation;
@@ -45,6 +46,9 @@ public class ActivityFragment extends Fragment {
     private Spinner mType;
     private Button mDelete;
     private Button mSave;
+    private ImageButton mPhotoButton;
+    private ImageView mPhotoView;
+
 
     public static ActivityFragment newInstance(UUID activityId) {
         Bundle args = new Bundle();
@@ -60,16 +64,24 @@ public class ActivityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID activityId = (UUID) getArguments().getSerializable(ARG_ACTIVITY_ID);
         mActivity = ActivityLab.get(getActivity()).getActivity(activityId);
+        mPhotoFile = ActivityLab.get(getActivity()).getPhotoFile(mActivity);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (Integer.parseInt(mActivity.getDurationMinutes()) > 60) {
-            mActivity.setDurationMinutes("0");
-            Toast.makeText(getContext(), "Minutes should be less than 60", Toast.LENGTH_LONG).show();
-        }
+
         ActivityLab.get(getActivity()).updateActivity(mActivity);
+    }
+
+    private void updatePhotoView() {
+        if (mPhotoFile == null || !mPhotoFile.exists()) {
+            mPhotoView.setImageDrawable(null);
+        } else {
+            Bitmap bitmap = PictureUtils.getScaledBitmap(
+                    mPhotoFile.getPath(), getActivity());
+            mPhotoView.setImageBitmap(bitmap);
+        }
     }
 
     @Override
@@ -213,6 +225,38 @@ public class ActivityFragment extends Fragment {
             }
         });
 
+        PackageManager packageManager = getActivity().getPackageManager();
+        mPhotoButton = (ImageButton) v.findViewById(R.id.activity_camera);
+        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        boolean canTakePhoto = mPhotoFile != null &&
+                captureImage.resolveActivity(packageManager) != null;
+        mPhotoButton.setEnabled(canTakePhoto);
+
+        if (canTakePhoto) {
+            Uri uri = Uri.fromFile(mPhotoFile);
+            captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        }
+        mPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("Listener", "calls on Click");
+                startActivityForResult(captureImage, REQUEST_PHOTO);
+                Log.d("Listener", "after on Click");
+
+            }
+        });
+
+
+
+        mPhotoView = (ImageView) v.findViewById(R.id.activity_photo);
+        updatePhotoView();
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_PHOTO) {
+            updatePhotoView();
+        }
     }
 }

@@ -84,7 +84,7 @@ public class ActivityLab {
             cursor.close();
         }
     }
-    
+
 
     public void updateActivity(Activity activity) {
         String uuidString = activity.getId().toString();
@@ -122,5 +122,15 @@ public class ActivityLab {
         );
 
         return new ActivityCursorWrapper(cursor);
+    }
+
+    public File getPhotoFile(Activity activity) {
+        File externalFilesDir = mContext
+                .getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+        if (externalFilesDir == null) {
+            return null;
+        }
+        return new File(externalFilesDir, activity.getPhotoFilename());
     }
 }
