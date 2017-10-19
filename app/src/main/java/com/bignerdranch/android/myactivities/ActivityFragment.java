@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,16 +26,26 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bignerdranch.android.myactivities.Location.LocationActivity;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+
 import java.io.File;
 import java.util.UUID;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Robert on 13/09/2017.
  */
 
-public class ActivityFragment extends Fragment {
+public class ActivityFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks {
     private static final String ARG_ACTIVITY_ID = "activity_id";
     private static final int REQUEST_PHOTO= 2;
+    public static final String EXTRA_LATITUDE = "com.example.bignerdranch.LATITUDE";
+    public static final String EXTRA_LONGITUDE = "com.example.bignerdranch.LONGITUDE";
 
     private Activity mActivity;
     private File mPhotoFile;
@@ -48,6 +60,12 @@ public class ActivityFragment extends Fragment {
     private Button mSave;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
+    private ImageView mImageView;
+    private GoogleApiClient mClient;
+    private String mCoordinants;
+    private double mLatitude;
+    private double mLongitude;
+    private Button mMapButton;
 
 
     public static ActivityFragment newInstance(UUID activityId) {
@@ -65,12 +83,30 @@ public class ActivityFragment extends Fragment {
         UUID activityId = (UUID) getArguments().getSerializable(ARG_ACTIVITY_ID);
         mActivity = ActivityLab.get(getActivity()).getActivity(activityId);
         mPhotoFile = ActivityLab.get(getActivity()).getPhotoFile(mActivity);
+        mClient = new GoogleApiClient.Builder(getActivity())
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .build();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mClient.connect();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        mClient.disconnect();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-
         ActivityLab.get(getActivity()).updateActivity(mActivity);
     }
 
@@ -110,25 +146,6 @@ public class ActivityFragment extends Fragment {
         mDateButton = (Button)v.findViewById(R.id.activity_date);
         mDateButton.setText(mActivity.getDate().toString());
         mDateButton.setEnabled(false);
-
-        mLocation = (EditText) v.findViewById(R.id.activity_location);
-        mLocation.setText(mActivity.getLocation());
-        mLocation.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mActivity.setLocation(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
         mComment = (EditText) v.findViewById(R.id.activity_comment);
         mComment.setText(mActivity.getComment());
@@ -213,6 +230,8 @@ public class ActivityFragment extends Fragment {
                 ActivityLab.get(getActivity()).deleteActivity(mActivity.getId());
                 Intent intent = new Intent(getActivity(), ActivitiesListActivity.class);
                 startActivity(intent);
+                Toast.makeText(getContext(), "Activity Deleted", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -220,6 +239,13 @@ public class ActivityFragment extends Fragment {
         mSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*int x = Integer.parseInt(mActivity.getDurationMinutes().toString());
+                if (x >= 60 || x < 0) {
+                    Toast.makeText(getContext(), "Minutes should be between 0 and 59", Toast.LENGTH_SHORT).show();
+                } else if (x < 60 && x >= 0) {
+
+                    Toast.makeText(getContext(), "Activity Saved", Toast.LENGTH_SHORT).show();
+                }*/
                 Intent intent = new Intent(getActivity(), ActivitiesListActivity.class);
                 startActivity(intent);
             }
@@ -239,9 +265,7 @@ public class ActivityFragment extends Fragment {
         mPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Listener", "calls on Click");
                 startActivityForResult(captureImage, REQUEST_PHOTO);
-                Log.d("Listener", "after on Click");
 
             }
         });
@@ -250,6 +274,29 @@ public class ActivityFragment extends Fragment {
 
         mPhotoView = (ImageView) v.findViewById(R.id.activity_photo);
         updatePhotoView();
+
+        mLocation = (EditText) v.findViewById(R.id.activity_location);
+        mLocation.setKeyListener(null);
+        mLocation.setText(mActivity.getLocation());
+
+        mMapButton = (Button) v.findViewById(R.id.map_button);
+        mMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LocationActivity.class);
+                Bundle bundle = new Bundle();
+                //bundle.putDouble("latitude", mLatitude);
+                //bundle.putDouble("longitude", mLongitude);
+                Double tempLatitude = Double.parseDouble(mActivity.getLocation().substring(0, 10));
+                Double tempLongitude = Double.parseDouble(mActivity.getLocation().substring(13, 23));
+                bundle.putDouble("latitude", tempLatitude);
+                bundle.putDouble("longitude", tempLongitude);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+
         return v;
     }
 
@@ -258,5 +305,33 @@ public class ActivityFragment extends Fragment {
         if (requestCode == REQUEST_PHOTO) {
             updatePhotoView();
         }
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        LocationRequest request = LocationRequest.create();
+        request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        request.setNumUpdates(1);
+        request.setInterval(0);
+
+        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == android.content.pm.PackageManager.PERMISSION_DENIED) {
+            return;
+        }
+        LocationServices.FusedLocationApi.requestLocationUpdates(mClient, request, new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.d(TAG, "got a fix: " + location);
+                mCoordinants = location.toString();
+                mLatitude = location.getLatitude();
+                mLongitude = location.getLongitude();
+                mActivity.setLocation(Double.toString(mLatitude) + ", " + Double.toString(mLongitude));
+            }
+        });
+    }
+
+    @Override
+    public void onConnectionSuspended(int cause) {
+
     }
 }

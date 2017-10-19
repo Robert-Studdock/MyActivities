@@ -131,11 +131,26 @@
     </LinearLayout>
 
 
-    <EditText
-        android:id="@+id/activity_location"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter a location"/>
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/activity_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Location"
+            android:inputType="none"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/map_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Show map"
+            android:layout_weight="2"/>
+    </LinearLayout>
+
 
     <EditText
         android:id="@+id/activity_comment"
